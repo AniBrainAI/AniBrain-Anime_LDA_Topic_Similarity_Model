@@ -15,5 +15,5 @@ When I say topic, what is it actually and how it is represented?
 
 A topic is nothing but a collection of dominant keywords that are typical representatives. Just by looking at the keywords, you can identify what the topic is all about." [[1]](https://www.machinelearningplus.com/nlp/topic-modeling-gensim-python/#4whatdoesldado)
 
-## References
+## References 
 [1] [Topic Modeling with Gensim (Python) by  Selva Prabhakaran](https://www.machinelearningplus.com/nlp/topic-modeling-gensim-python/#4whatdoesldado)
