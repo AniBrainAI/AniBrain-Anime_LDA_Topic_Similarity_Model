@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as r:
 
 setuptools.setup(
     name="anime_recs_synopsis",
-    version="0.0.01",
+    version="0.0.02",
     author="Chidi Udeze",
     author_email="chidiu98@gmail.com",
     description="Anime recommender model which measures synopsis/genre similarity to generate recommendations.",
