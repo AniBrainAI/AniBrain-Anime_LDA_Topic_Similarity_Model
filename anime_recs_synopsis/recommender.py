@@ -3,7 +3,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models.wrappers import LdaMallet
 from scipy.spatial import distance
-from processor import prepare_text
+from anime_recs_synopsis.processor import prepare_text
 
 class AnimeRecommender:
     def __init__(self):
