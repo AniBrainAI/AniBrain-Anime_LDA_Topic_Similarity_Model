@@ -1,1 +1,1 @@
-from processor.cleaner import prepare_text
+from cleaner import prepare_text
