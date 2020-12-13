@@ -3,7 +3,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models.wrappers import LdaMallet
 from scipy.spatial import distance
-from anime_recs_synopsis.processor import prepare_text
+from processor.cleaner import prepare_text
 
 class AnimeRecommender:
     def __init__(self):
@@ -76,6 +76,7 @@ class AnimeRecommender:
                 sorted_js_scores = np.array(sorted(jensen_shannon_scores, reverse=True))
                 score_indexes = sorted_js_scores[1:k + 1]
                 title_indexes = most_similar_indexes[1:k + 1]
+
             elif measure == 'distance':
                 sorted_js_scores = np.array(sorted(jensen_shannon_scores, reverse=False))
                 score_indexes = sorted_js_scores[:k]
@@ -103,5 +104,5 @@ class AnimeRecommender:
                 title_indexes = most_similar_indexes[::-1][:k]
         
         # (title name, jensen shannon score, topic distribution)
-        recommendation_details = [(self.__get_title_from_index(title_idx), score_indexes[idx], self.doc_topic_dist[title_idx]) for idx, title_idx in enumerate(title_indexes)]
+        recommendation_details = [(self.__get_title_from_index(title_idx), score_indexes[idx], self.doc_topic_dist[title_idx].tolist()) for idx, title_idx in enumerate(title_indexes)]
         return recommendation_details

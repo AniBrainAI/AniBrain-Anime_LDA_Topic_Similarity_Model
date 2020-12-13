@@ -1,1 +1,0 @@
-from anime_recs_synopsis.recommender import AnimeRecommender
