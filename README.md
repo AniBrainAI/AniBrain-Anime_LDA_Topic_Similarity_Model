@@ -39,10 +39,12 @@ Topic No. | Topic Name
 
 ## What are the word distributions of the topics?
 Go inside the Jupyter Notebook and you'll find out :) 
+<br/>
+<br/>
 *p.s. It's near the bottom of the notebook*
 
 ## How can I use this?
-The model is easily accessible through [docker] (https://hub.docker.com/r/koji98/anibrain_anime_lda_topic_similarity_model). The model is wrapped is wrapped in a 
+The model is easily accessible through [docker](https://hub.docker.com/r/koji98/anibrain_anime_lda_topic_similarity_model). The model is wrapped is wrapped in a 
 REST API so it can easily be as a microservice.
 
 ## References 
