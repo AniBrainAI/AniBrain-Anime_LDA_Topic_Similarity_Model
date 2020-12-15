@@ -110,3 +110,20 @@ def prepare_text(text):
     full = ' '.join(removed_short_words)
     
     return unidecode.unidecode(full)
+
+def seperate_genres(text):
+    """
+    Removes punctuation from genres and replaces spaces with underscores. Lastly, returns the genres as a string 
+    seperated by a space
+    
+    Parameters
+    ----------
+    text: str
+        Genres being processed.
+    """
+    
+    split_text = sorted(text.split(','))
+    split_text_no_punct = [x.translate(str.maketrans('', '', string.punctuation)) for x in split_text]
+    split_text_no_space = [x.replace(' ', '_') for x in split_text_no_punct]
+    
+    return ' '.join(split_text_no_space).lower()

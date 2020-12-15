@@ -3,7 +3,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models.wrappers import LdaMallet
 from scipy.spatial import distance
-from processor.cleaner import prepare_text
+from processor.cleaner import prepare_text, seperate_genres
 
 class AnimeRecommender:
     def __init__(self):
@@ -38,6 +38,8 @@ class AnimeRecommender:
         """
         Returns a title from an index in a dataframe
         
+        Parameters
+        ----------
         index: int
             The index of the title.
         """
@@ -49,6 +51,8 @@ class AnimeRecommender:
         """
         Returns a title's index in a dataframe
         
+        Parameters
+        ----------
         title: string
             Title to find its index.
         """
@@ -58,7 +62,21 @@ class AnimeRecommender:
 
     def recommend(self, title = None, synopsis = None, synopsis_genres = None, measure="similarity", k=10):
         """
-        
+        Returns recommendations from the topic similarity model.
+
+        Parameters
+        ----------
+        title: string
+            Title to base recommendations on
+        synopsis: string
+            Synopsis to base recommendations on
+        synopsis_genres: string
+            Comma seperated list of genres for the synopsis
+        measure: string
+            Either `similarity` or `distance` based on if you want recommendations of the
+            most similar or different animes.
+        k: int
+            The number of recommendations to return
         """
         
         if title is None and synopsis is None:
