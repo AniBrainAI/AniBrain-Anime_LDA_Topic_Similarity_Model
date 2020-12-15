@@ -1,16 +1,7 @@
-# https://medium.com/@tasnuva2606/dockerize-flask-app-4998a378a6aa
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 
-# set base image (host OS)
-FROM python:3.9
+COPY ./requirements.txt /app/requirements.txt
 
-# set the working directory in the container
-WORKDIR /code
+RUN pip install -r /app/requirements.txt
 
-# copy the content of the current directory to the working directory
-ADD . /code
-
-# install dependencies
-RUN pip install -r requirements.txt
-
-# command to run on container start
-CMD [ "python", "app.py" ]
+COPY . /app
