@@ -17,6 +17,9 @@ A topic is nothing but a collection of dominant keywords that are typical repres
 
 ## How do I use LDA to make recommendations?
 After preprocessing my dataset and determining the number of topics to use (through viewing coherence scores and playing with different models), I create a matrix of the topical distriution for every document in my corpus. I use the Jensen Shannon divergence method to measure the similarity distributions and choose those that are most (or least if using a different measure) similar.
+<br/>
+<br/>
+The documents were constructed by merging the synopsis of an anime with their genres and rating. I did this because I realized the synopsis alone weren't strong enough to mae good recommendations. Imagine there's a kid show which talk about ninjas *(A)* and a violent, murder-filled, bloody show about ninjas *(B)*. I saw cases where *(A)* could be a recommendation of *(B)* due to them both being heavily ninja focused. The synopsis I worked with weren't as long as I'd like, and so it was easy for two very different shows to seem similar based on purely that alone. Adding in genres and ratings into my bag of words helped the model learn to associate shows with similar ratings and genres together. By doing this, the model's coherence scores dropped but the it learned to make better recommendations (in my opinion).
 
 ## What are the names of the topics found?
 Topic No. | Topic Name
