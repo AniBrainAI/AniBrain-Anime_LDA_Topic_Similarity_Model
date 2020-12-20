@@ -3,6 +3,8 @@ from spacy.lang.en import English
 import string
 import unidecode
 
+nlp = spacy.load("en_core_web_lg")
+
 def __remove_people(text):
     """
     Removes character names from synopsis (identified through Named Entity Recognition).
@@ -27,12 +29,12 @@ def __remove_non_alphabetical_characters(text):
         
     Parameters
     ----------
-    token: str
+    token: string
         Word being processed
 
     Returns
     -------
-    str:
+    string:
         Cleaned string
     """
     
@@ -53,12 +55,12 @@ def prepare_text(text):
         
     Parameters
     ----------
-    text: str
+    text: string
         Text being processed
 
     Returns
     -------
-    str:
+    string:
         Lemmatized text
     """
     
@@ -102,7 +104,7 @@ def prepare_text(text):
     ]
     
     # Lemmatize
-    lemmatized_text = ' '.join([token.lemma_ for token in tokens if not token.is_stop and not token.is_punct and (token.pos_ == 'NOUN' or token.pos_ == 'ADJ' or token.pos_ == 'VERB' or token.pos_ == 'ADV') and token.lemma_ not in custom_stop_list])
+    lemmatized_text = ' '.join([token.lemma_ for token in tokens if not token.is_stop and not token.is_punct and (token.pos_ == 'NOUN' or token.pos_ == 'ADJ' or token.pos_ == 'VERB' or token.pos_ == 'ADV' or token.dep_ == 'ROOT') and token.lemma_ not in custom_stop_list])
     
     # Remove short words (<= 2)
     removed_short_words = [x for x in lemmatized_text.split() if len(x) > 2]
@@ -118,8 +120,13 @@ def seperate_genres(text):
     
     Parameters
     ----------
-    text: str
+    text: string
         Genres being processed.
+
+    Returns
+    -------
+    string:
+        Seperated genres
     """
     
     split_text = sorted(text.split(','))
@@ -127,3 +134,28 @@ def seperate_genres(text):
     split_text_no_space = [x.replace(' ', '_') for x in split_text_no_punct]
     
     return ' '.join(split_text_no_space).lower()
+
+
+def merge_ratings(text):
+    """
+    Removes whitespace and punction from a rating and then merges the remaining tokens together forming a 
+    single token
+
+    Parameters
+    ----------
+    text: strign
+        Rating being processed.
+
+    Returns
+    -------
+    string:
+        Rating as a single token
+    """
+    
+    split_text = sorted(list(map(lambda x: x.replace(' ', '_'), text.split(','))))
+    split_text = [
+        ''.join([letter for letter in word if letter.isalpha() or letter == '_'])
+        for word in split_text
+    ]
+    
+    return ' '.join(split_text).lower()

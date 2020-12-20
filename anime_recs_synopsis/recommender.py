@@ -3,7 +3,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models.wrappers import LdaMallet
 from scipy.spatial import distance
-from processor.cleaner import prepare_text, seperate_genres
+from processor.cleaner import prepare_text, seperate_genres, merge_ratings
 
 class AnimeRecommender:
     def __init__(self):
@@ -15,6 +15,7 @@ class AnimeRecommender:
             self.doc_topic_dist = np.load('./model_files/doc_topic_dist.npy')
             self.spacy_df = pd.read_pickle('./model_files/spacy_df.pkl')
             self.lda_model = LdaMallet.load('./model_files/lda.model')
+            self.lda_model.prefix = './model_files/model_18'
             self.dictionary = Dictionary.load('./model_files/dictionary')
         except:
             raise Exception("Unable to load all necessary files for the recommender system.")
@@ -60,7 +61,7 @@ class AnimeRecommender:
         index = self.spacy_df[self.spacy_df['Title'] == title].index.values[0]
         return index
 
-    def recommend(self, title = None, synopsis = None, synopsis_genres = None, measure="similarity", k=10):
+    def recommend(self, title=None, text=None, genres=None, rating=None, measure="similarity", k=10):
         """
         Returns recommendations from the topic similarity model.
 
@@ -68,10 +69,12 @@ class AnimeRecommender:
         ----------
         title: string
             Title to base recommendations on
-        synopsis: string
+        text: string
             Synopsis to base recommendations on
-        synopsis_genres: string
+        genres: string
             Comma seperated list of genres for the synopsis
+        rating: string
+            Rating of the text
         measure: string
             Either `similarity` or `distance` based on if you want recommendations of the
             most similar or different animes.
@@ -79,7 +82,7 @@ class AnimeRecommender:
             The number of recommendations to return
         """
         
-        if title is None and synopsis is None:
+        if title is None and text is None:
             return
         
         score_indexes = []
@@ -100,16 +103,19 @@ class AnimeRecommender:
                 score_indexes = sorted_js_scores[:k]
                 title_indexes = most_similar_indexes[::-1][:k]
             
-        elif synopsis is not None:
-            cleaned_synopsis = prepare_text(synopsis)
+        elif text is not None:
+            cleaned_text = prepare_text(text)
             
-            if synopsis_genres is not None:
-                cleaned_synopsis = cleaned_synopsis + ' ' + seperate_genres(synopsis_genres)
+            if genres is not None:
+                cleaned_text = cleaned_text + ' ' + seperate_genres(genres)
+            
+            if rating is not None:
+                cleaned_text = cleaned_text + ' ' + merge_ratings(rating)
                 
-            cleaned_synopsis_split = cleaned_synopsis.split()
-            synopsis_bow = self.dictionary.doc2bow(cleaned_synopsis_split)
-            synopsis_distribution = np.array([tup[1] for tup in self.lda_model[synopsis_bow]])
-            jensen_shannon_scores = get_js_distances(distribution = synopsis_distribution)
+            cleaned_text_split = cleaned_text.split()
+            text_bow = self.dictionary.doc2bow(cleaned_text_split)
+            text_distribution = np.array([tup[1] for tup in self.lda_model[text_bow]])
+            jensen_shannon_scores = self.__get_js_distances(distribution=text_distribution)
             most_similar_indexes = np.array(jensen_shannon_scores).argsort()
             
             if measure == 'similarity':
