@@ -50,7 +50,7 @@ Topic No. | Topic Name
 These are the top 10 words for every topic.
 <br/>
 <br/>
-**[R-17+ Mystery]**
+**<ins>[R-17+ Mystery]</ins>**
 <br/>
 0.034*"mystery" + 0.024*"r___violence__profanity" + 0.020*"supernatural" + 0.017*"horror" + 0.015*"psychological" + 0.015*"find" + 0.013*"death" + 0.012*"mysterious" + 0.012*"drama" + 0.012*"action"
 <br/><br/>
