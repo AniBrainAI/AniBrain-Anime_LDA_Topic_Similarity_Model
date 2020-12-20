@@ -4,4 +4,6 @@ COPY ./requirements.txt /app/requirements.txt
 
 RUN pip install -r /app/requirements.txt
 
+RUN python -m spacy download en_core_web_lg
+
 COPY . /app
