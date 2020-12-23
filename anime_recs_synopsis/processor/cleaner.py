@@ -3,7 +3,7 @@ from spacy.lang.en import English
 import string
 import unidecode
 
-nlp = spacy.load("en_core_web_lg")
+nlp = spacy.load("en_core_web_sm")
 
 def __remove_people(text):
     """
